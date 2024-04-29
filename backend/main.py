@@ -1,9 +1,16 @@
+import uvicorn
 from fastapi import FastAPI
 from pydantic import BaseModel
-import uvicorn
+from database import connection
 
 app = FastAPI()
 
+cursor = connection.cursor()
+
+if cursor:
+    print("Connected to database")
+else:
+    print("Connection to database failed")
 class Model(BaseModel):
     name: str
 
