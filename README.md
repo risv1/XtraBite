@@ -4,7 +4,7 @@
 Our online food delivery app built for DBMS, handling orders, deliveries and payments with transactions.
 
 ## Stack
- - [Svelte](https://svelte.dev/)
+ - [Next](https://nextjs.org/)
  - [FastAPI](https://fastapi.tiangolo.com/)
  - [OracleDB](https://www.oracle.com/database/)
 
