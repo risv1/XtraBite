@@ -1,11 +1,11 @@
 import uvicorn
 from fastapi import FastAPI
 from pydantic import BaseModel
-from database.db import connection
+from database.db import cursor
+from routes.user_routes import user_router
+from routes.restaurant_routes import restaurant_router
 
 app = FastAPI()
-
-cursor = connection.cursor()
 
 if cursor:
     print("Connected to database")
@@ -14,6 +14,11 @@ else:
     
 class Model(BaseModel):
     name: str
+
+@app.on_event("startup")
+async def startup():
+    app.include_router(user_router)
+    app.include_router(restaurant_router)
 
 @app.get("/")
 async def root():

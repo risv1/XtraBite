@@ -13,3 +13,5 @@ service = os.environ['ORACLE_SERVICE']
 dsn_tns = cx_Oracle.makedsn(host, port, service)
 
 connection = cx_Oracle.connect(user=user, password=password, dsn=dsn_tns)
+
+cursor = connection.cursor()
