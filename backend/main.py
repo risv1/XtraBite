@@ -4,6 +4,7 @@ from pydantic import BaseModel
 from database.db import cursor
 from routes.user_routes import user_router
 from routes.restaurant_routes import restaurant_router
+from routes.food_routes import food_router
 
 app = FastAPI()
 
@@ -19,6 +20,7 @@ class Model(BaseModel):
 async def startup():
     app.include_router(user_router)
     app.include_router(restaurant_router)
+    app.include_router(food_router)
 
 @app.get("/")
 async def root():
