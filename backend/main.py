@@ -5,6 +5,8 @@ from database.db import cursor
 from routes.user_routes import user_router
 from routes.restaurant_routes import restaurant_router
 from routes.food_routes import food_router
+from routes.order_routes import order_router
+from routes.delivery_routes import delivery_router
 
 app = FastAPI()
 
@@ -21,6 +23,8 @@ async def startup():
     app.include_router(user_router)
     app.include_router(restaurant_router)
     app.include_router(food_router)
+    app.include_router(order_router)
+    app.include_router(delivery_router)
 
 @app.get("/")
 async def root():

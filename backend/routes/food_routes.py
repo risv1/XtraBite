@@ -41,6 +41,9 @@ async def new_subfood(body: SubFood):
         food = cursor.fetchone()
         if food:
             cursor.execute(
+                f"INSERT INTO food (id, name) VALUES ('{subfood_id}', '{body_data['name']}')"
+            )
+            cursor.execute(
                 f"INSERT INTO subfoods (id, food_id, name, price) VALUES ('{subfood_id}', '{food[0]}', '{body_data['name']}', '{body_data['price']}')"
             )
             connection.commit()
