@@ -21,7 +21,34 @@ const FoodPage = () => {
       accessorKey: "driver_id",
       header: "Driver ID",
     },
+    {
+      header: "Delivered",
+      cell: ({ row }: any) => (
+          <Button onClick={()=>handleDelivered(row.original.order_id)}>Delivered</Button>
+      )
+    }
   ];
+
+  const handleDelivered = async (orderId: string) => {
+    const response = await fetch("http://localhost:8000/update_delivered", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({
+        order_id: orderId,
+      }),
+    });
+  
+    const data = await response.json();
+  
+    if (data.message === "Order status updated successfully") {
+      console.log("Order status updated successfully", data);
+      router.refresh(); 
+    } else {
+      console.error("Updating order status failed", data);
+    }
+  };
 
   const [delivery, setDelivery] = useState<any>([]);
   useEffect(() => {

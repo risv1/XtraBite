@@ -1,7 +1,7 @@
 from fastapi import APIRouter
 from uuid import uuid4
 from database.db import cursor, connection
-from models.delivery import Delivery, Driver
+from models.delivery import Delivery, Driver, UpdateDeliveryBody
 
 delivery_router = APIRouter()
 
@@ -62,3 +62,18 @@ async def new_delivery(body: Delivery):
     )
     return {"message": "Delivery added successfully"}
 
+@delivery_router.post("/update_delivered")
+async def update_delivery(body: UpdateDeliveryBody):
+    cursor.execute(
+        f"SELECT id FROM delivery WHERE order_id = '{body.order_id}'"
+    )
+    delivery = cursor.fetchone()
+    if not delivery:
+        return {"message": "Delivery not found"}
+
+    cursor.execute(
+        f"UPDATE order_status SET status = 'delivered', description = 'Order was delivered' WHERE order_id = '{body.order_id}'",
+    )
+    connection.commit()
+
+    return {"message": "Order status updated successfully"}

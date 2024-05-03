@@ -7,3 +7,6 @@ class Delivery(BaseModel):
 class Driver(BaseModel):
     name: str
     phone: str
+
+class UpdateDeliveryBody(BaseModel):
+    order_id: str
