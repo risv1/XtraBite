@@ -6,6 +6,41 @@ from models.allergens import Allergen, AllergenSeverity
 
 food_router = APIRouter()
 
+@food_router.get("/get_food")
+async def get_food():
+    cursor.execute("SELECT * FROM food")
+    food = cursor.fetchall()
+    if not food:
+        return {"message": "No food found"}
+    else:
+        return [{"id": f[0], "name": f[1]} for f in food]
+
+@food_router.get("/get_subfoods")
+async def get_food():
+    cursor.execute("SELECT * FROM subfoods")
+    food = cursor.fetchall()
+    if not food:
+        return {"message": "No food found"}
+    else:
+        return [{"id": f[0], "food_id": f[1], "name": f[2], "price": f[3]} for f in food]
+
+@food_router.get("/get_allergens")
+async def get_allergens():
+    cursor.execute("SELECT * FROM allergens")
+    allergens = cursor.fetchall()
+    if not allergens:
+        return {"message": "No allergens found"}
+    else:
+        return [{"id": f[0], "name": f[1]} for f in allergens]
+
+@food_router.get("/get_allergen_severity")
+async def get_allergen_severity():
+    cursor.execute("SELECT * FROM allergen_severity")
+    allergen_severity = cursor.fetchall()
+    if not allergen_severity:
+        return {"message": "No allergen severity found"}
+    else:
+        return [{"id": f[0], "allergen_id": f[1], "food_id": f[2], "severity": f[3]} for f in allergen_severity]
 
 @food_router.post("/new_food")
 async def new_food(body: Food):

@@ -6,6 +6,68 @@ from models.orders import Order
 order_router = APIRouter()
 
 
+@order_router.get("/get_ind_orders")
+async def get_ind_orders():
+    cursor.execute("SELECT * FROM ind_order")
+    orders = cursor.fetchall()
+    if not orders:
+        return {"message": "No orders found"}
+    elif len(orders) == 0:
+        return {"message": "No orders found"}
+    else:
+        return [{"id": f[0],
+                 "customer_id": f[1],
+                 "price": f[2],
+                 "preferences": f[3]
+                 } for f in orders]
+
+@order_router.get("/get_orders")
+async def get_orders():
+    cursor.execute("SELECT * FROM orders")
+    orders = cursor.fetchall()
+    if not orders:
+        return {"message": "No orders found"}
+    elif len(orders) == 0:
+        return {"message": "No orders found"}
+    else:
+        return [{"id": f[0],
+                 "restaurant_id": f[1],
+                 "customer_id": f[2],
+                 "name": f[3],
+                 "order_id": f[4]
+                 } for f in orders]
+
+@order_router.get("/get_order_items")
+async def get_order_items():
+    cursor.execute("SELECT * FROM order_items")
+    orders = cursor.fetchall()
+    if not orders:
+        return {"message": "No orders found"}
+    elif len(orders) == 0:
+        return {"message": "No orders found"}
+    else:
+        return [{"food_id": f[0],
+                 "price": f[1],
+                 "quantity": f[2],
+                 "order_id": f[3]
+                 } for f in orders]
+
+@order_router.get("/get_order_status")
+async def get_order_status():
+    cursor.execute("SELECT * FROM order_status")
+    orders = cursor.fetchall()
+    if not orders:
+        return {"message": "No orders found"}
+    elif len(orders) == 0:
+        return {"message": "No orders found"}
+    else:
+        return [{"id": f[0],
+                 "status": f[1],
+                 "description": f[2],
+                 "order_id": f[3]
+                 } for f in orders]
+
+
 @order_router.post("/new_order")
 async def new_order(body: Order):
     cursor.execute(

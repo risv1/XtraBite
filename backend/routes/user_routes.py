@@ -5,6 +5,39 @@ from models.customer import Register, Login
 
 user_router = APIRouter()
 
+@user_router.get("/get_customers")
+async def get_customers():
+    cursor.execute("SELECT * FROM customer")
+    customers = cursor.fetchall()
+    if not customers:
+        return {"message": "No customers found"}
+    elif len(customers) == 0:
+        return {"message": "No customers found"}
+    else:
+        return [{"id": f[0], "name": f[1] } for f in customers]
+
+@user_router.get("/get_addresses")
+async def get_addresses():
+    cursor.execute("SELECT * FROM addresses")
+    addresses = cursor.fetchall()
+    if not addresses:
+        return {"message": "No addresses found"}
+    elif len(addresses) == 0:
+        return {"message": "No addresses found"}
+    else:
+        return [{"id": f[0], "customer_id": f[1], "phone": f[2], "street": f[3], "city": f[4], "state": f[5], "country": f[6] } for f in addresses]
+    
+@user_router.get("/get_emails")
+async def get_emails():
+    cursor.execute("SELECT * FROM emails")
+    emails = cursor.fetchall()
+    if not emails:
+        return {"message": "No emails found"}
+    elif len(emails) == 0:
+        return {"message": "No emails found"}
+    else:
+        return [{"id": f[0], "email": f[1], "customer_id": f[2] } for f in emails]
+
 @user_router.post("/register")
 async def register(body: Register):
     body_data = {

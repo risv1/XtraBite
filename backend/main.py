@@ -1,5 +1,6 @@
 import uvicorn
 from fastapi import FastAPI
+from fastapi.middleware.cors import CORSMiddleware
 from pydantic import BaseModel
 from database.db import cursor
 from routes.user_routes import user_router
@@ -9,6 +10,14 @@ from routes.order_routes import order_router
 from routes.delivery_routes import delivery_router
 
 app = FastAPI()
+
+app.add_middleware(
+    CORSMiddleware,
+    allow_origins="http://localhost:3000",
+    allow_credentials=True,
+    allow_methods=["*"],
+    allow_headers=["*"],
+)
 
 if cursor:
     print("Connected to database")

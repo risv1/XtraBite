@@ -5,20 +5,34 @@ from models.delivery import Delivery, Driver
 
 delivery_router = APIRouter()
 
+@delivery_router.get("/get_deliveries")
+async def get_deliveries():
+    cursor.execute("SELECT * FROM delivery")
+    deliveries = cursor.fetchall()
+    if not deliveries:
+        return {"message": "No deliveries found"}
+    elif len(deliveries) == 0:
+        return {"message": "No deliveries found"}
+    else:
+        return [{"id": f[0], "order_id": f[1], "driver_id": f[2] } for f in deliveries]
+    
+@delivery_router.get("/get_drivers")
+async def get_drivers():
+    cursor.execute("SELECT * FROM driver")
+    drivers = cursor.fetchall()
+    if not drivers:
+        return {"message": "No drivers found"}
+    elif len(drivers) == 0:
+        return {"message": "No drivers found"}
+    else:
+        return [{"id": f[0], "name": f[1], "phone": f[2] } for f in drivers]
+
 @delivery_router.post("/new_driver")
 async def new_driver(body: Driver):
     body_data = {
         'name': body.name,
         'phone': body.phone,
     }
-
-    cursor.execute(
-        f"SELECT id FROM delivery WHERE id = '{body.delivery_id}'"
-    )
-    delivery = cursor.fetchone()
-
-    if not delivery:
-        return {"error": "Delivery not found"}
 
     driver_id = str(uuid4())
     cursor.execute(
@@ -36,7 +50,7 @@ async def new_delivery(body: Delivery):
         return {"error": "Driver not found"}
 
     cursor.execute(
-        f"SELECT id FROM orders WHERE id = '{body.order_id}'"
+        f"SELECT id FROM ind_order WHERE id = '{body.order_id}'"
     )
     order = cursor.fetchone()
     if not order:

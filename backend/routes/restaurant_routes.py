@@ -5,6 +5,28 @@ from models.restaurant import Restaurant, Branch
 
 restaurant_router = APIRouter()
 
+@restaurant_router.get("/get_restaurants")
+async def get_restaurants():
+    cursor.execute("SELECT * FROM restaurant")
+    restaurants = cursor.fetchall()
+    if not restaurants:
+        return {"message": "No restaurants found"}
+    elif len(restaurants) == 0:
+        return {"message": "No restaurants found"}
+    else:
+        return [{"id": f[0], "name": f[1], "rating": f[2] } for f in restaurants]
+
+@restaurant_router.get("/get_branches")
+async def get_branches():
+    cursor.execute("SELECT * FROM branch")
+    branches = cursor.fetchall()
+    if not branches:
+        return {"message": "No branches found"}
+    elif len(branches) == 0:
+        return {"message": "No branches found"}
+    else:
+        return [{"id": f[0], "restaurant_id": f[1], "address": f[2], "contact_number": f[3]} for f in branches]
+
 @restaurant_router.post("/new_restaurant")
 async def new_restaurant(body: Restaurant):
     body_data = {
