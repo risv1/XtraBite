@@ -20,6 +20,9 @@ const Nav = () => {
         <Link href={"/customers"} className="text-lg font-bold ml-5 mt-1">
           Customers
         </Link>
+        <Link href={"/orders"} className="text-lg font-bold ml-5 mt-1">
+          Orders
+        </Link>
         <Link
           href={"/delivery"}
           className="text-lg font-bold ml-5 mt-1"
